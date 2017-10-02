@@ -14,8 +14,8 @@ def drag_force(norm_d_coeff, velocity):
 def plot(x_list, y_list):
     #Plots the graph of theta against EK ratio, gives sensible axis labels
     pyplot.plot(x_list, y_list)
-    pyplot.xlabel('Theta')
-    pyplot.ylabel('Ek_f / Ek_i')
+    pyplot.xlabel('Theta (degrees)')
+    pyplot.ylabel('Range (m)')
 
 def find_final_velocity(timestep, norm_d_coeff, init_speed, theta, init_position = np.array([0,0])):
     #Performs time integration
@@ -47,19 +47,19 @@ def main():
         init_position = np.array([0,0])
     
     thetas = []
-    ke_rats = []
-    #ranges = []
-    for theta in range(10, 90, 1): #this loop appends the Ek ratio and theta to lists
+    #ke_rats = []
+    ranges = []
+    for theta in range(0, 90, 1): #this loop appends the Ek ratio and theta to lists
         thetas.append(theta)
         #print(init_speed ** 2)
-        vel = find_final_velocity(timestep, norm_d_coeff, init_speed, math.radians(theta), init_position)[0]
-        #range_p = find_final_velocity(timestep, norm_d_coeff, init_speed, math.radians(theta), init_position)[1]
+        #vel = find_final_velocity(timestep, norm_d_coeff, init_speed, math.radians(theta), init_position)[0]
+        range_p = find_final_velocity(timestep, norm_d_coeff, init_speed, math.radians(theta), init_position)[1]
         #print(vel ** 2)
-        #ranges.append(range_p)
-        ke_rats.append(kinetic_energy_ratio(init_speed, vel))
+        ranges.append(range_p)
+        #ke_rats.append(kinetic_energy_ratio(init_speed, vel))
     
-    plot(thetas, ke_rats) #plots
-    #plot(thetas, ranges)
+    #plot(thetas, ke_rats) #plots
+    plot(thetas, ranges)
     pyplot.show()
 
 main()

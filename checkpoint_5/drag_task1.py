@@ -51,6 +51,7 @@ def main():
     
     posit_list = make_position_list(timestep, norm_d_coeff, init_speed, theta, init_position)
     plot(posit_list, theta)
+    pyplot.axis('equal') #gives equal x and y axis
     pyplot.show() #shows graphs
 
 main()
