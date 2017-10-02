@@ -20,7 +20,7 @@ def drag_force(norm_d_coeff, velocity):
     vel_mag = np.linalg.norm(velocity)
     drag_force = [0,0]
     drag_force[0] = -1 * norm_d_coeff * vel_mag * velocity[0]
-    drag_force[1] = -1 * norm_d_coeff * vel_mag * velocity[0] - 9.81
+    drag_force[1] = -1 * norm_d_coeff * vel_mag * velocity[1] - 9.81
     return np.array(drag_force)
     
 
@@ -29,6 +29,7 @@ def plot(x_list, y_list):
     pyplot.plot(x_list, y_list)
     pyplot.xlabel('Theta')
     pyplot.ylabel('Ek_f / Ek_i')
+    pyplot.title('Plot of kinetic energies and initial angles')
 
 def find_final_velocity(timestep, norm_d_coeff, init_speed, theta, init_position = np.array([0,0])):
     #Performs time integration
@@ -58,7 +59,7 @@ def main():
     
     thetas = []
     ke_rats = []
-    for theta in range(10, 90, 1): #this loop appends the Ek ratio and theta to lists
+    for theta in range(0, 90, 1): #this loop appends the Ek ratio and theta to lists
         thetas.append(theta)
         vel = find_final_velocity(timestep, norm_d_coeff, init_speed, math.radians(theta), init_position)[0]
         ke_rats.append(kinetic_energy_ratio(init_speed, vel))

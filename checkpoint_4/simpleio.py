@@ -8,6 +8,7 @@ def plot(t_list, logpower_list):
     pyplot.plot(t_list, logpower_list)
     pyplot.xlabel('Time(s)')
     pyplot.ylabel('log(V(t)I(t)')
+    pyplot.title('Plot of logpower against time')
     pyplot.show()
 
 """
@@ -18,7 +19,7 @@ def readToList(filename):
     file = open(filename, 'r')
     content = file.readlines() #holds the content of the file
     #print(content)
-    for line in content:
+    for line in content: #reads file line by line
         if line[0] == '#': #checks if file line is comment
             print("Skipped comment") 
         else:
@@ -26,11 +27,11 @@ def readToList(filename):
             volt_list.append(float(volts))
             current_list.append(float(current))
 
-    for i in range(len(volt_list)):
+    for i in range(len(volt_list)): #creates logpower list
         logpower_list.append(math.log(volt_list[i]*current_list[i])) #calculates logpower for each pair of voltage and current and appends to logpower list
         t_list.append(float(i/25000))
-    file.close()
-    return (t_list, logpower_list)
+    file.close() #closes file
+    return (t_list, logpower_list) 
             
             
         

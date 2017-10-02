@@ -20,7 +20,7 @@ def drag_force(norm_d_coeff, velocity):
     vel_mag = np.linalg.norm(velocity)
     drag_force = [0,0]
     drag_force[0] = -1 * norm_d_coeff * vel_mag * velocity[0]
-    drag_force[1] = -1 * norm_d_coeff * vel_mag * velocity[0] - 9.81
+    drag_force[1] = -1 * norm_d_coeff * vel_mag * velocity[1] - 9.81
     return np.array(drag_force)
 
 def plot(posit_list, theta):
@@ -30,6 +30,7 @@ def plot(posit_list, theta):
     pyplot.plot(x_list, y_list, label = "Theta = {0}".format(str(theta)))
     pyplot.xlabel('x position')
     pyplot.ylabel('y position')
+    pyplot.title('Projectile trajectory')
 
 def make_position_list(timestep, norm_d_coeff, init_speed, theta, init_position = np.array([0,0])):
 #Performs the time integration
@@ -42,8 +43,9 @@ def make_position_list(timestep, norm_d_coeff, init_speed, theta, init_position 
     position = init_position
     posit_list = [init_position] #initialises posit_list to contain first position
     while position[1] >= 0: #stops when object hits ground
-        position = position + (timestep * velocity)
         velocity = velocity + (timestep * drag_force(norm_d_coeff, velocity)) #updates position and velocity
+        position = position + (timestep * velocity)
+        
         posit_list.append(position)
     #print("Range = ", position[0])
     return posit_list
@@ -67,7 +69,7 @@ def main():
     
     posit_list = make_position_list(timestep, norm_d_coeff, init_speed, theta, init_position)
     plot(posit_list, theta)
-    pyplot.axis('equal') #gives equal x and y axis
+    #pyplot.axis('equal') #gives equal x and y axis
     pyplot.show() #shows graphs
 
 main()
