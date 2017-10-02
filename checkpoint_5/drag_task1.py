@@ -3,6 +3,10 @@ import sys
 import math
 from matplotlib import pyplot
 
+"""
+This program is the one that plots the trajectory for one particle
+"""
+
 def kinetic_energy_ratio(init_velocity, final_velocity):
 #Calcualtes kinetic energy ratio
     return (init_velocity**2) / (final_velocity**2)
@@ -10,7 +14,15 @@ def kinetic_energy_ratio(init_velocity, final_velocity):
 def drag_force(norm_d_coeff, velocity):
 #Calculates the acceleration due to drag as a vector
     return (-1 * norm_d_coeff * (velocity ** 2)) + (np.array([0, -9.81]))
-
+'''
+def drag_force(norm_d_coeff, velocity):
+    #gives the drag force as a vector
+    vel_mag = np.linalg.norm(velocity)
+    drag_force = [0,0]
+    drag_force[0] = -1 * norm_d_coeff * vel_mag * velocity[0]
+    drag_force[1] = -1 * norm_d_coeff * vel_mag * velocity[0] - 9.81
+    return np.array(drag_force)
+'''
 def plot(posit_list, theta):
 #Plots the given lists to a graph and labels it
     x_list = [p[0] for p in posit_list]
@@ -51,7 +63,7 @@ def main():
     
     posit_list = make_position_list(timestep, norm_d_coeff, init_speed, theta, init_position)
     plot(posit_list, theta)
-    pyplot.axis('equal') #gives equal x and y axis
+   # pyplot.axis('equal') #gives equal x and y axis
     pyplot.show() #shows graphs
 
 main()

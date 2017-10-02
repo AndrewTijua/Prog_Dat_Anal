@@ -2,14 +2,27 @@ import numpy as np
 import sys
 import math
 from matplotlib import pyplot
+"""
+This program is the one that plots the kinetic energy ratios for many theta
+"""
+
 
 def kinetic_energy_ratio(init_velocity, final_velocity):
     #gives kinetic energy ratio between final and initial
-    return (final_velocity**2) / (init_velocity**2) 
-
+    return (final_velocity ** 2) / (init_velocity ** 2) 
+'''
 def drag_force(norm_d_coeff, velocity):
-    #gives the drag force as a vector
+#Calculates the acceleration due to drag as a vector
     return (-1 * norm_d_coeff * (velocity ** 2)) + (np.array([0, -9.81]))
+'''
+def drag_force(norm_d_coeff, velocity):
+    gives the drag force as a vector
+    vel_mag = np.linalg.norm(velocity)
+    drag_force = [0,0]
+    drag_force[0] = -1 * norm_d_coeff * vel_mag * velocity[0]
+    drag_force[1] = -1 * norm_d_coeff * vel_mag * velocity[0] - 9.81
+    return np.array(drag_force)
+    
 
 def plot(x_list, y_list):
     #Plots the graph of theta against EK ratio, gives sensible axis labels
