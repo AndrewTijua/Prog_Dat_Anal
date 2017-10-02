@@ -1,0 +1,8 @@
+import math
+
+volume_milli = float(input('Enter Volume in mm: '))
+volume_metre = volume_milli / 1e6
+radius_metre = (volume_metre / (4/3 * math.pi))**(1/3)
+surface_metre = 4 * math.pi * radius_metre**2
+print('Radius = ', radius_metre)
+print('Surface Area = ', surface_metre)
