@@ -16,7 +16,7 @@ def drag_force(norm_d_coeff, velocity):
     return (-1 * norm_d_coeff * (velocity ** 2)) + (np.array([0, -9.81]))
 '''
 def drag_force(norm_d_coeff, velocity):
-    gives the drag force as a vector
+    #gives the drag force as a vector
     vel_mag = np.linalg.norm(velocity)
     drag_force = [0,0]
     drag_force[0] = -1 * norm_d_coeff * vel_mag * velocity[0]
