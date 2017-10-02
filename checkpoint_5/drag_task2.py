@@ -1,0 +1,65 @@
+import numpy as np
+import sys
+import math
+from matplotlib import pyplot
+
+def kinetic_energy_ratio(init_velocity, final_velocity):
+    #gives kinetic energy ratio between final and initial
+    return (final_velocity**2) / (init_velocity**2) 
+
+def drag_force(norm_d_coeff, velocity):
+    #gives the drag force as a vector
+    return (-1 * norm_d_coeff * (velocity ** 2)) + (np.array([0, -9.81]))
+
+def plot(x_list, y_list):
+    #Plots the graph of theta against EK ratio, gives sensible axis labels
+    pyplot.plot(x_list, y_list)
+    pyplot.xlabel('Theta')
+    pyplot.ylabel('Ek_f / Ek_i')
+
+def find_final_velocity(timestep, norm_d_coeff, init_speed, theta, init_position = np.array([0,0])):
+    #Performs time integration
+    init_velocity = np.array([init_speed * math.cos(theta), init_speed * math.sin(theta)])
+    velocity = init_velocity
+    position = init_position
+    posit_list = [init_position]
+    while position[1] >= 0: #stops when object hits ground
+        position = position + (timestep * velocity)
+        velocity = velocity + (timestep * drag_force(norm_d_coeff, velocity)) #updates position and velocity vectors
+        posit_list.append(position)
+    #print("Theta = ", theta)
+    #print("Range = ", position[0])
+    #print("Final velocity = ", velocity)
+    return (np.linalg.norm(velocity), position[0]) #returns a tuple of the final velocity and the range
+
+def main():
+    try:
+        init_speed = float(sys.argv[1]) #attempts command line inputs
+        norm_d_coeff = float(sys.argv[2])
+        timestep = float(sys.argv[3])
+    except:
+        init_speed = float(input("Initial speed: ")) #incase improper CLAs
+        norm_d_coeff = float(input("Normalised drag coefficient: "))
+        timestep = float(input("Timestep: "))
+    try:
+        init_position = np.array(sys.argv[4])
+    except:
+        init_position = np.array([0,0])
+    
+    thetas = []
+    ke_rats = []
+    ranges = []
+    for theta in range(10, 90, 1): #this loop appends the Ek ratio and theta to lists
+        thetas.append(theta)
+        #print(init_speed ** 2)
+        vel = find_final_velocity(timestep, norm_d_coeff, init_speed, math.radians(theta), init_position)[0]
+        #range_p = find_final_velocity(timestep, norm_d_coeff, init_speed, math.radians(theta), init_position)[1]
+        #print(vel ** 2)
+        #ranges.append(range_p)
+        ke_rats.append(kinetic_energy_ratio(init_speed, vel))
+    
+    plot(thetas, ke_rats) #plots
+    #plot(thetas, ranges)
+    pyplot.show()
+
+main()

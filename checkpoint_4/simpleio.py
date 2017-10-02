@@ -29,7 +29,7 @@ def readToList(filename):
     for i in range(len(volt_list)):
         logpower_list.append(math.log(volt_list[i]*current_list[i])) #calculates logpower for each pair of voltage and current and appends to logpower list
         t_list.append(float(i/25000))
-
+    file.close()
     return (t_list, logpower_list)
             
             
