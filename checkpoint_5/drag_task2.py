@@ -19,17 +19,14 @@ def plot(x_list, y_list):
 
 def find_final_velocity(timestep, norm_d_coeff, init_speed, theta, init_position = np.array([0,0])):
     #Performs time integration
-    init_velocity = np.array([init_speed * math.cos(theta), init_speed * math.sin(theta)])
-    velocity = init_velocity
+    init_velocity = np.array([init_speed * math.cos(theta), init_speed * math.sin(theta)]) #turns the 'polar' velocity into a cartesian vector
+    velocity = init_velocity #initialises variables
     position = init_position
     posit_list = [init_position]
     while position[1] >= 0: #stops when object hits ground
         position = position + (timestep * velocity)
         velocity = velocity + (timestep * drag_force(norm_d_coeff, velocity)) #updates position and velocity vectors
         posit_list.append(position)
-    #print("Theta = ", theta)
-    #print("Range = ", position[0])
-    #print("Final velocity = ", velocity)
     return (np.linalg.norm(velocity), position[0]) #returns a tuple of the final velocity and the range
 
 def main():
@@ -48,18 +45,12 @@ def main():
     
     thetas = []
     ke_rats = []
-    #ranges = []
     for theta in range(10, 90, 1): #this loop appends the Ek ratio and theta to lists
         thetas.append(theta)
-        #print(init_speed ** 2)
         vel = find_final_velocity(timestep, norm_d_coeff, init_speed, math.radians(theta), init_position)[0]
-        #range_p = find_final_velocity(timestep, norm_d_coeff, init_speed, math.radians(theta), init_position)[1]
-        #print(vel ** 2)
-        #ranges.append(range_p)
         ke_rats.append(kinetic_energy_ratio(init_speed, vel))
     
-    plot(thetas, ke_rats) #plots
-    #plot(thetas, ranges)
+    plot(thetas, ke_rats) #plots ratios against thetas
     pyplot.show()
 
 main()
